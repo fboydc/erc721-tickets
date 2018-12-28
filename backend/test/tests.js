@@ -17,7 +17,8 @@ contract("TicketRepository",  async (accounts) => {
     })
 
     it("should be able to transfer a ticket", async ()=>{
-        await instance.transferFrom(ticket_buyer_1, ticket_rebuyer_1, 1);
+        await instance.safeTransferFrom(ticket_buyer_1, ticket_rebuyer_1, 1, {from:ticket_buyer_1});
+        assert.notEqual(await instance.ownerOf(1), ticket_buyer_1);
         assert.equal(await instance.ownerOf(1), ticket_rebuyer_1);
     })
 });
